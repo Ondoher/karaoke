@@ -1,0 +1,115 @@
+@font-face {
+    font-family: 'AktivGrotesk';
+    src: url('fonts/aktivgrotesk_std_rg-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_rg-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_rg-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_rg-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_rg-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-style: italic;
+    src: url('fonts/aktivgrotesk_std_rgit-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_rgit-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_rgit-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_rgit-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_rgit-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: bold;
+    src: url('fonts/aktivgrotesk_std_bd-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_bd-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_bd-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_bd-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_bd-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: bold;
+    font-style: italic;
+    src: url('fonts/aktivgrotesk_std_bdit-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_bdit-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_bdit-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_bdit-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_bdit-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: 300;
+    src: url('fonts/aktivgrotesk_std_lt-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_lt-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_lt-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_lt-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_lt-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: 300;
+    font-style: italic;
+    src: url('fonts/aktivgrotesk_std_ltit-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_ltit-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_ltit-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_ltit-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_ltit-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: 900;
+    src: url('fonts/aktivgrotesk_std_xbd-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_xbd-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_xbd-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_xbd-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_xbd-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: 900;
+    font-style: italic;
+    src: url('fonts/aktivgrotesk_std_xbdit-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_xbdit-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_xbdit-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_xbdit-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_xbdit-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: 800;
+    src: url('fonts/aktivgrotesk_std_md-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_md-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_md-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_md-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_md-webfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'AktivGrotesk';
+    font-weight: 800;
+    font-style: italic;
+    src: url('fonts/aktivgrotesk_std_mdit-webfont.eot');
+    src: url('fonts/aktivgrotesk_std_mdit-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/aktivgrotesk_std_mdit-webfont.svg') format('svg'),
+    url('fonts/aktivgrotesk_std_mdit-webfont.woff') format('woff'),
+    url('fonts/aktivgrotesk_std_mdit-webfont.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'EauDouce';
+    font-weight: normal;
+    font-style: normal;
+    src: url('fonts/eau_douce_sans_regular-webfont.eot');
+    src: url('fonts/eau_douce_sans_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/eau_douce_sans_regular-webfont.woff') format('woff'),
+         url('fonts/eau_douce_sans_regular-webfont.ttf') format('truetype'),
+         url('fonts/eau_douce_sans_regular-webfont.svg#eau_doucesans_regular') format('svg');
+}
+
+@font-face {
+    font-family: 'EauDouce';
+    font-weight: bold;
+    font-style: normal;
+    src: url('fonts/eau_douce_sans_bold-webfont.eot');
+    src: url('fonts/eau_douce_sans_bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/eau_douce_sans_bold-webfont.woff') format('woff'),
+         url('fonts/eau_douce_sans_bold-webfont.ttf') format('truetype'),
+         url('fonts/eau_douce_sans_bold-webfont.svg#eau_doucesans_bold') format('svg');
+}

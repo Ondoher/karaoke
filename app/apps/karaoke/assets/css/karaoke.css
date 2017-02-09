@@ -1,0 +1,269 @@
+html, body, .viewport {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.vbox {
+  display:         flex;
+  flex-direction: column;
+}
+/* items flex/expand horizontally */
+.hbox {
+  /* current syntax */
+  display:         flex;
+  flex-direction: row;
+}
+
+.main {
+  flex: 1;
+}
+
+
+body {
+	background-color: #000;
+	color: white;
+	font-family: 'AktivGrotesk', Arial, san-serif;
+	font-size: 16px;
+}
+
+.nano > .nano-pane > .nano-slider {
+	background: #556477;
+/*
+	 -webkit-transition: all .15s ease-out;
+	 -moz-transition: all .15s ease-out;
+	 -o-transition: all .15s ease-out;
+	 transition: all .15s ease-out;
+*/
+}
+
+.nano > .nano-pane > .nano-slider:hover {
+	 cursor: pointer;
+}
+
+.nano > .nano-pane {
+	background: rgba(0, 0, 0, .4);
+}
+
+.nano > .nano-content:focus {
+	outline: none;
+}
+
+/*.show-application-busy {display: none}*/
+/*.application-busy .show-application-busy {display: block}*/
+
+.show-application-busy {
+	visibility:hidden;
+	opacity:0;
+	transition: visibility 0s linear 0.5s, opacity .5s linear;
+}
+
+.application-busy .show-application-busy {
+	visibility:visible;
+	opacity: 1;
+	transition-delay: .25s;
+}
+
+.busy-overlay {
+	background: none repeat scroll 0 0 #000;
+	width: 1280px;
+	height: 720px;
+	margin: 0 auto;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	position: fixed;
+	z-index: 15;
+	opacity: 0.85;
+	-moz-opacity:0.85;
+	filter:alpha(opacity=85);
+}
+
+.busy-content {
+	width: 1280px;
+	height: 720px;
+	margin: 0 auto;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	position: fixed;
+	z-index: 16;
+}
+
+.busy-message {
+	width: 100%;
+	height: 200px;
+	font-size: 20px;
+	color: #7d8e9f;
+	text-align: center;
+	top: 400px;
+	left: 0;
+	position: absolute;
+	display: block;
+	opacity: 0;
+	-webkit-animation-name: loading-pulse;
+	-webkit-transition-timing-function: linear;
+	-webkit-animation-duration: 2.5s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-delay: .2s;
+}
+
+.header-container {
+	 margin: 0 60px;
+}
+
+::-webkit-input-placeholder {
+	 color: #7d8e9f;
+}
+
+input:focus::-webkit-input-placeholder {
+	 color: #fff;
+}
+
+:-moz-placeholder {
+	 color: #7d8e9f;
+}
+
+input:focus:-moz-placeholder {
+	 color: #fff;
+}
+
+:-ms-input-placeholder {
+	 color: #7d8e9f;
+}
+
+input:focus:-ms-input-placeholder {
+	 color: #fff;
+}
+
+.user-info {
+	cursor: pointer;
+	display: inline-block;
+	 margin: 30px 10px 0 0;
+	 float: right;
+}
+
+.menu-selected {
+	background-color: blue;
+}
+
+.navigate-current {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #c63b1a;
+	 cursor: pointer;
+}
+
+.sub-nav,
+.navigable {
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+}
+
+.checkbox-fancy {
+	width: 20px;
+	position: relative;
+}
+
+.checkbox-fancy label {
+	 cursor: pointer;
+	 position: absolute;
+	 width: 12px;
+	 height: 12px;
+	 top: 0;
+	 padding: 0px;
+	 margin: 1px 0 0 6px;
+	 border-radius: 14px;
+	 background: #000;
+	 box-shadow: 0 0 0 1px #5f6f81, 0 0 0 1px #5f6f81;
+}
+
+.checkbox-fancy label:hover:after {
+	 border: none;
+}
+
+.checkbox-fancy label:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+	content: '';
+	position: absolute;
+	width: 9px;
+	height: 4px;
+	background: transparent;
+	top: 2px;
+	left: 1px;
+	/*border: 3px solid #fff;*/
+	border-top: none;
+	border-right: none;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.checkbox-fancy label:hover:after {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: 1;
+}
+
+.checkbox-fancy input[type=checkbox] {
+	 margin-right: 10px;
+}
+
+
+#disable-overlay {
+	 background: none repeat scroll 0 0 black;
+	 bottom: 0;
+	 height: 100%;
+	 left: 0;
+	 position: fixed;
+	 right: 0;
+	 top: 0;
+	 width: 100%;
+	 opacity: 0;
+	 -moz-opacity:0;
+	 filter:alpha(opacity=0);
+}
+
+#canvas {
+	 margin: 0 auto 0 auto;
+	 background: #000000;
+	 display: flex;
+	 flex-direction: column;
+	 flex-wrap: no-wrap;
+	 justify-content:space-between;
+	 align-items: stretch;
+	 height:  100%
+}
+
+.main-content {
+	flex-grow: 1;
+}
+
+.page {
+	overflow: hidden;
+}
+
+.page-container {
+  overflow: hidden;
+  display:         flex;
+  flex-direction: column;
+	height: 100%;
+
+}
+
+.pages {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+
+
+
+

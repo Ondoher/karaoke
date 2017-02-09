@@ -1,0 +1,12 @@
+{
+  "name": "karaoki-pi",
+  "version": "0.1.0",
+  "main": "scripts/index.js",
+  "dependencies": {
+    "mootools": "^1.5.2",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "electron": "^1.4.15"
+  }
+}

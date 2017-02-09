@@ -1,0 +1,63 @@
+.catalog .pages {
+    overflow: visible;
+}
+
+.page.catalog-page {
+    overflow: visible;
+    margin: -8px 0 0 0;
+}
+
+
+.catalog-page h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 6px 0;
+}
+
+.catalog-content {
+    width: 1000px;
+	position: relative;
+    float: left;
+}
+
+.catalog-list {
+	overflow-x:hidden;
+}
+
+.catalog-container {
+    width: 1000px;
+	overflow:hidden;
+	height:608px;
+}
+
+.catalog-content .nano > .nano-pane {
+    top: 8px;
+}
+
+.catalog .sale-flag {
+    margin: -38px 0 0 235px;
+}
+/*.catalog-page .fade-bottom {*/
+	/*width: 1023px;*/
+	/*height: 50px;*/
+	/*float: left;*/
+	/*margin-top: -50px;*/
+    /*background: -moz-linear-gradient(top,  rgba(255,255,255,0) 50%, rgba(27,39,52,1) 100%);*/
+    /*background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,rgba(255,255,255,0)), color-stop(100%,rgba(27,39,52,1)));*/
+    /*background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 50%,rgba(27,39,52,1) 100%);*/
+    /*background: -o-linear-gradient(top,  rgba(255,255,255,0) 50%,rgba(27,39,52,1) 100%);*/
+    /*background: -ms-linear-gradient(top,  rgba(255,255,255,0) 50%,rgba(27,39,52,1) 100%);*/
+    /*background: linear-gradient(to bottom,  rgba(255,255,255,0) 50%,rgba(27,39,52,1) 100%);*/
+    /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#1b2734',GradientType=0 );*/
+	/*position: relative;*/
+/*}*/
+
+.show-onlive-go {display: none}
+.show-playpass {display: none}
+.show-freeplay {display: none}
+
+.onlive-go .show-onlive-go {display: block}
+.playpass .show-playpass {display: block}
+.freeplay .show-freeplay {display: block}
+
+

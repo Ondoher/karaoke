@@ -1,0 +1,10 @@
+.play-page {
+	height:100%;
+}
+
+.play-canvas {
+	height:100%;
+	margin: 0px auto;
+	overflow: hidden;
+}
+

@@ -6,6 +6,7 @@ Package('Karaoke.Controllers', {
 		{
 			SAPPHIRE.application.listenPageEvent('load', 'catalog', this.onLoad.bind(this));
 			SAPPHIRE.application.listenPageEvent('show', 'catalog', this.onShow.bind(this));
+			SAPPHIRE.application.listenPageEvent('hide', 'catalog', this.onHide.bind(this));
 			SAPPHIRE.application.listenPageEvent('firstShow', 'catalog', this.onFirstShow.bind(this));
 		},
 
@@ -31,13 +32,21 @@ Package('Karaoke.Controllers', {
 
 		onShow : function()
 		{
-			this.view.drawSelected();
-			this.view.doScroll();
+			if (this.view.paused)
+			{
+				this.view.drawSelected();
+				this.view.doScroll();
+				this.view.resume();
+			}
+		},
+
+		onHide : function()
+		{
+			this.view.pause();
 		},
 
 		onSongSelect : function(song)
 		{
-			console.log('songSelect', song);
 			SAPPHIRE.application.showPage('play', song);
 		},
 	})

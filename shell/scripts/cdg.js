@@ -18,8 +18,7 @@ var Cdg = new Class({
 		var slice = this.buffer.slice(index * PACKET_LENGTH + PACKET_LENGTH);
 		if (slice.length === 0)
 		{
-			console.log(index);
-			return {};
+			return false;
 		}
 		var command = slice.readUInt8(0);
 		var instruction = slice.readUInt8(1);
@@ -36,7 +35,6 @@ var Cdg = new Class({
 
 	length : function()
 	{
-		console.log('this.buffer.length', this.buffer.length);
 		return this.buffer.length / PACKET_LENGTH;
 	},
 
@@ -46,7 +44,11 @@ var Cdg = new Class({
 		var index = start
 		var stop = index + count;
 
-		for (var idx = index; idx < stop; idx++) packets.push(this.getPacket(idx));
+		for (var idx = index; idx < stop; idx++)
+		{
+			var packet = this.getPacket(idx);
+			if (packet) packets.push(packet);
+		}
 
 		return packets;
 	}

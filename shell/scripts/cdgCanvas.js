@@ -32,12 +32,12 @@ var CDG_FULL_HEIGHT     = 216;
 var CDG_DISPLAY_WIDTH   = 288;
 var CDG_DISPLAY_HEIGHT  = 192;
 
-var CDG_TILE_COL_PIXELS = 6;
-var CDG_TILE_ROW_PIXELS = 12;
+var CDG_TILE_WIDTH = 6;
+var CDG_TILE_HEIGHT = 12;
 
 
-var CDG_TILE_ROWS = CDG_FULL_WIDTH / CDG_TILE_ROW_PIXELS;
-var CDG_TILE_COLS  = CDG_FULL_HEIGHT / CDG_TILE_COL_PIXELS;
+var CDG_TILE_ROWS = CDG_FULL_WIDTH / CDG_TILE_HEIGHT;
+var CDG_TILE_COLS  = CDG_FULL_HEIGHT / CDG_TILE_WIDTH;
 
 var COLOUR_TABLE_SIZE       = 16
 
@@ -57,6 +57,8 @@ function CdgCanvas(cdg, canvas)
 
 	this.borderColor  = false;
 	this.clearColor  = false;
+	this.hOffset = 0;
+	this.vOffset = 0;
 }
 
 CdgCanvas.prototype = {
@@ -85,28 +87,11 @@ CdgCanvas.prototype = {
 
 //		this.invalidateAll();
 
-	// if there is a new border, clear the screen area with that color
-		if (this.borderColor !== false) {
-			update = new Uint8ClampedArray(CDG_FULL_WIDTH * CDG_FULL_HEIGHT * 4)
-			var color = this.colorMap[this.borderColor];
-			for (var idx = 0; idx < CDG_FULL_WIDTH * CDG_FULL_HEIGHT * 4; idx += 4)
-			{
-				update[idx] = (color >>> 24) & 0xff;      // R
-				update[idx + 1] = (color >>> 16) & 0xff;  // G
-				update[idx + 2] = (color >>> 8) & 0xff;   // B
-				update[idx + 3] = (color & 0xff);         // A
-			}
-
-			var imageData = new ImageData(update, CDG_FULL_WIDTH, CDG_FULL_HEIGHT);
-			this.ctx.putImageData(imageData, 0, 0);
-
-			this.invalidateAll();
-			this.borderColor = false;
-		}
-
 	// always constrain to inside border
 		var xAdjust = this.invalidateBorder ? 0 : 6;
 		var yAdjust = this.invalidateBorder ? 0 : 12;
+//		xAdjust -= this.hOffset
+//		yAdjust -= this.vOffset
 		var startX = Math.max(this.invalid.xStart, xAdjust);
 		var startY = Math.max(this.invalid.yStart, yAdjust);
 		var stopX = Math.min(this.invalid.xStop, CDG_FULL_WIDTH - xAdjust);
@@ -136,7 +121,41 @@ CdgCanvas.prototype = {
 
 
 		var imageData = new ImageData(update, width, height);
-		this.ctx.putImageData(imageData, startX, startY);
+		this.ctx.putImageData(imageData, startX - this.hOffset, startY - this.vOffset);
+
+	// if we must draw the border, do that now
+//		if (this.drawBorder || this.hOffset || this.vOffset)
+		if (true)
+		{
+			hUpdate = new Uint8ClampedArray(CDG_FULL_WIDTH * CDG_TILE_HEIGHT * 4)
+			vUpdate = new Uint8ClampedArray(CDG_FULL_HEIGHT * CDG_TILE_WIDTH * 4)
+			var color = this.colorMap[this.borderColor];
+
+			for (var idx = 0; idx < hUpdate.length;  idx += 4)
+			{
+				hUpdate[idx] = (color >>> 24) & 0xff;      // R
+				hUpdate[idx + 1] = (color >>> 16) & 0xff;  // G
+				hUpdate[idx + 2] = (color >>> 8) & 0xff;   // B
+				hUpdate[idx + 3] = (color & 0xff);         // A
+			}
+
+			for (var idx = 0; idx < vUpdate.length;  idx += 4)
+			{
+				vUpdate[idx] = (color >>> 24) & 0xff;      // R
+				vUpdate[idx + 1] = (color >>> 16) & 0xff;  // G
+				vUpdate[idx + 2] = (color >>> 8) & 0xff;   // B
+				vUpdate[idx + 3] = (color & 0xff);         // A
+			}
+
+			var hImageData = new ImageData(hUpdate, CDG_FULL_WIDTH, CDG_TILE_HEIGHT);
+			var vImageData = new ImageData(vUpdate, CDG_TILE_WIDTH, CDG_FULL_HEIGHT);
+
+			this.ctx.putImageData(hImageData, 0, 0);
+			this.ctx.putImageData(hImageData, 0, CDG_FULL_HEIGHT - CDG_TILE_HEIGHT);
+
+			this.ctx.putImageData(vImageData, 0, 0);
+			this.ctx.putImageData(hImageData, CDG_FULL_WIDTH - CDG_TILE_HEIGHT, 0);
+		}
 	},
 
 	invalidateAll : function(border)
@@ -283,8 +302,8 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 		var row = data[2] & 0x1f;
 		var col = data[3] & 0x3f;
 
-		var x = col * CDG_TILE_COL_PIXELS;
-		var y = row * CDG_TILE_ROW_PIXELS;
+		var x = col * CDG_TILE_WIDTH;
+		var y = row * CDG_TILE_HEIGHT;
 
 		var tile = row * CDG_TILE_COLS + col;
 		var pos = y * CDG_FULL_WIDTH + x;
@@ -317,7 +336,7 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 			this.cdgSurface[pos + 5] = pixel ^ (byte & 0x01 ? color1 : color0);
 		}
 
-		this.invalidateRect(x, y, x + CDG_TILE_COL_PIXELS, y + CDG_TILE_ROW_PIXELS);
+		this.invalidateRect(x, y, x + CDG_TILE_WIDTH, y + CDG_TILE_HEIGHT);
 	},
 
 	clearAll : function(color)
@@ -327,24 +346,26 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 		this.borderColor = color;
 		this.cdgSurface.fill(color);
 		this.invalidateAll(true);
+		this.drawBorder = true;
 	},
 
 	clearBorder : function(color)
 	{
 	//! actually set the pixels
 		this.borderColor = color;
+		this.drawBorder = true;
 		this.invalidateAll(true);
 	},
 
 	vScroll : function(pixels, clear)
 	{
 	// Vertical scrolling is easiest, it is just a simple memory move.
-		var length = CDG_FULL_WIDTH *  pixels;
+		var length = CDG_FULL_WIDTH *  Math.abs(pixels);
 		var replace = new Uint8ClampedArray(length);
 		var up = pixels < 0;
 		var bottom = CDG_FULL_WIDTH * CDG_FULL_HEIGHT;
 		var start = up ? 0 : bottom - length;
-		var stop = start + lenth;
+		var stop = start + length;
 
 	// if we're rotating, grab the content, otherwise fill it
 		if (clear === false) replace = this.cdgSurface.slice(start, stop);
@@ -364,7 +385,7 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 
 	hScroll : function(pixels, clear)
 	{
-		var length = pixels;
+		var length = Math.abs(pixels);
 		var replace = new Uint8ClampedArray(length);
 		var right = CDG_FULL_WIDTH;
 		var left = pixels < 0;
@@ -464,22 +485,41 @@ tiles into the border area and scrolling them into view.
 		var color = data[0] & 0x0f;
 		var hScroll = data[1] & 0x3f;
 		var vScroll = data[2] & 0x3f;
-		var hSCmd = hScroll & 3 >> 4;
-		var hOffet = hScroll & 0x07;
-		var vSCmd = vScroll & 3 >> 4;
-		var vOffet = vScroll & 0x0f;
+		var hSCmd = (hScroll & 0x30) >> 4;
+		var hOffset = hScroll & 0x07;
+		var vSCmd = (vScroll & 0x30) >> 4;
+		var vOffset = vScroll & 0x0f;
 		var pixels;
 		if (hSCmd !== 0)
 		{
-			pixels = CDG_TILE_COL_PIXELS - hOffset;
-			if (hSCmd === 2) pixles = 0 - pixels;
+			var tiles = 0;
+			if (hSCmd === 2) tiles = -1;
+			else if (hSCmd === 1) tiles = 1;
+
+			pixels = CDG_TILE_WIDTH * tiles;
 			this.hScroll(pixels, preset ? color : false);
 		}
-		if (hSCmd !== 0)
+		if (vSCmd !== 0)
 		{
-			pixels = CDG_TILE_ROW_PIXELS - vOffset;
-			if (VSCmd === 2) pixles = 0 - pixels;
+			var tiles = 0;
+			if (vSCmd === 2) tiles = -1;
+			else if (vSCmd === 1) tiles = 1;
+
+			pixels = CDG_TILE_HEIGHT * tiles;
 			this.vScroll(pixels, preset ? color : false);
+		}
+
+		if (this.hOffset != hOffset)
+		{
+			this.hOffset = hOffset;
+			this.invalidateAll(true);
+			this.scrolled = true;
+		}
+		if (this.vOffset != vOffset)
+		{
+			this.vOffset = vOffset;
+			this.invalidateAll(true);
+			this.scrolled = true;
 		}
 	},
 
@@ -526,6 +566,7 @@ tiles into the border area and scrolling them into view.
 		var total = Math.floor((timeOffset) * (300 / 1000));
 		var count = total - this.curPos;
 		var packets = this.cdg.getPackets(this.curPos, count);
+		if (packets.length === 0) return false;
 
 		this.curPos = total;
 
@@ -535,6 +576,7 @@ tiles into the border area and scrolling them into view.
 		}, this);
 
 		this.draw();
+		return true;
 	}
 };
 

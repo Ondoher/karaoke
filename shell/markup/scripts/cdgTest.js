@@ -1,4 +1,3 @@
-console.log('CDG TEST');
 var canvas = document.getElementById('canvas');
 //var cdg = new Cdg('A Little Bit Me, A Little Bit You');
 //var name = 'A Little Bit Me, A Little Bit You';

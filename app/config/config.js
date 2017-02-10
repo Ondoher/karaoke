@@ -7,8 +7,6 @@ var config = {
 //	cacheBust: false,
 }
 
-console.log(config);
-
 var env = process.env.node_env;
 
 envConfig = {};

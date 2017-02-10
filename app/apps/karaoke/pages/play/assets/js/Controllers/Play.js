@@ -19,7 +19,6 @@ Package('Karaoke.Controllers', {
 
 		onShow : function(song)
 		{
-			console.log(arguments);
 			this.view.draw(song)
 		},
 

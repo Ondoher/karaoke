@@ -19,12 +19,19 @@ Package('Karaoke.Navigate', {
 			var focused = $(':focus');
 			var action = '';
 			this.fire('activate');
+			//console.log(e);
 			switch (e.which)
 			{
+				case 172:
+					e.preventDefault();
+					e.stopPropagation();
+					break;
+
 				case 9:  //tab, swallow!
 					e.preventDefault();
 					break;
 
+				case 166:  // backspace
 				case 8:  // backspace
 					if (focused.prop('tagName') == 'INPUT' || focused.prop('tagName') == 'TEXTAREA') return;
 					e.preventDefault();
@@ -78,6 +85,7 @@ Package('Karaoke.Navigate', {
 					if (focused.prop('tagName') == 'INPUT' || focused.prop('tagName') == 'TEXTAREA') return;
 					action = 'i';
 					break;
+				case 93:
 				case 79:
 					if (focused.prop('tagName') == 'INPUT' || focused.prop('tagName') == 'TEXTAREA') return;
 					action = 'menu';

@@ -28,7 +28,7 @@ function createWindow () {
     slashes: true
   }))
 /**/
-win.loadURL('http://localhost:8080/karaoke');
+win.loadURL('http://localhost/karaoke');
 //  win.loadURL('http://localhost:8080/');
 //  win.loadURL('http://google.com');
   // Open the DevTools.

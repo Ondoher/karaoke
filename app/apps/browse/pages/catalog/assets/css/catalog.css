@@ -1,3 +1,4 @@
+/**/
 .catalog-page {
 }
 
@@ -7,18 +8,21 @@
 
 .catalog-content {
 	overflow: hidden;
+	width: 100%
 }
 
 .catalog-list {
 	overflow: hidden;
+	overflow-y: auto;
 	width:100%;
-	font-size: 40px;
+	font-size: 16px;
 }
 
 .cdg-preview {
 	position: relative;
 	min-width: 600px;
 	height: 100%;
+	display: none;
 }
 
 .catalog-container {
@@ -31,9 +35,17 @@
 
 .song-item {
 	padding: 2px 10px;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
+}
+
+.song-item:hover {
+	background-color: rgba(255, 255, 255, 0.3);
+}
+
+.song-name {
+	float:left;
+}
+.song-buttons {
+	float:right;
 }
 
 .tv-canvas {
@@ -61,4 +73,4 @@
 	-webkit-backface-visibility: hidden;
 	-webkit-perspective: 1000;
 }
-
+/**/

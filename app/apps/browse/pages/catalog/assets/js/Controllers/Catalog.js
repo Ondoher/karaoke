@@ -1,20 +1,19 @@
-Package('Karaoke.Controllers', {
+Package('Browse.Controllers', {
 	Catalog : new Class({
 		Extends : Sapphire.Controller,
 
 		initialize : function()
 		{
+			this.parent();
+
 			SAPPHIRE.application.listenPageEvent('load', 'catalog', this.onLoad.bind(this));
 			SAPPHIRE.application.listenPageEvent('show', 'catalog', this.onShow.bind(this));
-			SAPPHIRE.application.listenPageEvent('hide', 'catalog', this.onHide.bind(this));
 			SAPPHIRE.application.listenPageEvent('firstShow', 'catalog', this.onFirstShow.bind(this));
 		},
 
 		onLoad : function()
 		{
-			this.view = new Karaoke.Views.Catalog();
-			this.view.listen('songSelect', this.onSongSelect.bind(this));
-
+			this.view = new Browse.Views.Catalog();
 			this.model = SAPPHIRE.application.getModel('catalog');
 		},
 
@@ -28,26 +27,11 @@ Package('Karaoke.Controllers', {
 				}.bind(this))
 		},
 
-		onShow : function()
+		onShow : function(panel, query)
 		{
-			if (this.view.paused)
-			{
-				this.view.drawSelected();
-				this.view.doScroll();
-				this.view.resume();
-			}
-		},
-
-		onHide : function()
-		{
-			this.view.pause();
-		},
-
-		onSongSelect : function(song)
-		{
-			SAPPHIRE.application.showPage('play', song);
+			//this.view.draw()
 		},
 	})
 });
 
-SAPPHIRE.application.registerController('catalog', new Karaoke.Controllers.Catalog());
+SAPPHIRE.application.registerController('catalog', new Browse.Controllers.Catalog());

@@ -1,14 +1,8 @@
-var path = require('path');
 var config = {
+	defaultApp : 'browse',
 	useCompression: false,
 	builderCache: false,
 	minify : false,
-	catalogPath : path.join(__dirname, '../../content'),
-	port: 80,
-	baseUrl : 'http://localhost/',
-	defaultApp: 'browse',
-	processes: 1,
-	//	cacheBust: false,
 }
 
 var env = process.env.node_env;

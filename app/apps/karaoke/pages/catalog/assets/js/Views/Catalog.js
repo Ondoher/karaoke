@@ -12,7 +12,7 @@ Package('Karaoke.Views', {
 
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
 			this.container = $('#catalog-list');
-			this.container.on('scrollstop', this.onScrolled.bind(this));
+//			this.container.on('scrollstop', this.onScrolled.bind(this));
 
 			this.tvCanvas = $('#tv-canvas')[0];
 			this.tvContext = this.tvCanvas.getContext('2d'),

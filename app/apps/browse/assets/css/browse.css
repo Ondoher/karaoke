@@ -1,15 +1,13 @@
 html, body, .viewport {
-  width: 100%;
   height: 100%;
-  margin: 0;
 }
+
 .vbox {
   display:         flex;
   flex-direction: column;
 }
-/* items flex/expand horizontally */
+
 .hbox {
-  /* current syntax */
   display:         flex;
   flex-direction: row;
 }
@@ -18,16 +16,30 @@ html, body, .viewport {
   flex: 1;
 }
 
+
 .space-between {
   justify-content: space-between;
 }
 
 
+.clearfix:before,
+.clearfix:after {
+	content: '';
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
 body {
 	background-color: #000;
-	color: white;
+	color: #ffffff;
 	font-family: 'AktivGrotesk', Arial, san-serif;
 	font-size: 16px;
+	max-width: 1024px;
+	margin: 0 auto;
+	background: gray;
 }
 
 .nano > .nano-pane > .nano-slider {
@@ -247,6 +259,12 @@ input:focus:-ms-input-placeholder {
 
 .main-content {
 	flex-grow: 1;
+}
+
+.header {
+	height: 36px;
+	width: 100%;
+	background-color: #181869;
 }
 
 .page {

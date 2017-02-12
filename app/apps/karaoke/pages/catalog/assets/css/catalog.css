@@ -7,6 +7,7 @@
 
 .catalog-content {
 	overflow: hidden;
+	width: 100%;
 }
 
 .catalog-list {

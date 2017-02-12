@@ -8,7 +8,7 @@ var PACKETS_PER_SECOND = 300;
 var Cdg = new Class({
 	initialize : function(name)
 	{
-		var cdgFilename = path.join(__dirname, '../content/' + name + '.cdg')
+		var cdgFilename = path.join(__dirname, '../../content/' + name + '.cdg')
 		var cdgData = fs.readFileSync(cdgFilename);
 		this.buffer = cdgData;
 	},

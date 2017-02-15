@@ -4,7 +4,6 @@ var Service = require('sapphire-express').Service;
 var static = require('node-static');
 
 var directory = CONFIG.catalogPath;
-console.log(directory);
 if (directory.indexOf(':') !==-1) directory = directory.split(':')[1];
 directory = directory.split('\\').join('/');
 var file = new(static.Server)(directory);

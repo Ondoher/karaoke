@@ -21,14 +21,14 @@ Package('Karaoke.Views', {
 		draw : function(song)
 		{
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
-			this.cdg = new Cdg(song.name);
+			this.cdg = new Cdg(song.path, song.name);
 			this.cdgCanvas = new CdgCanvas(this.cdg, this.canvas);
 
 			this.container.empty();
 			this.cdgCanvas.start();
 
 			this.audio = new Audio();
-			this.audio.src = 'karaoke/services/download/music?filename=' + encodeURIComponent(song.name) + '.mp3';
+			this.audio.src = 'karaoke/services/download/music?filename=' + encodeURIComponent(song.path + '/' + song.name) + '.mp3';
 			this.audio.controls = false;
 			this.audio.autoplay = true;
 			this.container.append(this.audio);

@@ -3,11 +3,11 @@ var config = {
 	useCompression: false,
 	builderCache: false,
 	minify : false,
-	catalogPath : path.join(__dirname, '../../content'),
 	port: 80,
 	baseUrl : 'http://localhost/',
 	defaultApp: 'browse',
 	processes: 1,
+	catalogPath : '/media',
 	//	cacheBust: false,
 }
 

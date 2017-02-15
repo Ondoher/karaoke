@@ -110,7 +110,8 @@ Package('Karaoke.Views', {
 			this.cdgStarted = Date.now();
 			this.cdgPlaying = true;
 			var name = this.songs[this.selected].name;
-			this.cdg = new Cdg(name);
+			var path = this.songs[this.selected].path;
+			this.cdg = new Cdg(path, name);
 			this.cdgCanvas = new CdgCanvas(this.cdg, this.previewCanvas);
 			this.cdgCanvas.start();
 			$('#preview-canvas').hide();
@@ -157,6 +158,12 @@ Package('Karaoke.Views', {
 
 		draw : function(songs)
 		{
+
+			songs.sort(function(s1, s2)
+			{
+				return s1.name.toLowerCase().localeCompare(s2.name.toLowerCase());
+			});
+
 			this.container.empty();
 			this.songs = songs;
 			var template;

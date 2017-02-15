@@ -4,6 +4,7 @@ var Service = require('sapphire-express').Service;
 var static = require('node-static');
 
 var directory = CONFIG.catalogPath;
+console.log(directory);
 if (directory.indexOf(':') !==-1) directory = directory.split(':')[1];
 directory = directory.split('\\').join('/');
 var file = new(static.Server)(directory);
@@ -26,6 +27,8 @@ DownloadService = new Class({
 	{
 		var deferred = Q.defer();
 		var filename = req.query.filename;
+
+		console.log(filename);
 		file.serveFile(filename, 200, {}, req, res).on('end', function()
 		{
 			deferred.resolve(null);

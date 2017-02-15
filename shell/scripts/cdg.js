@@ -1,14 +1,32 @@
 require('mootools');
 var fs = require('fs');
 var path = require('path');
+var config = require('../../app/config/config');
+var env = process.env.node_env;
+console.log(env);
+
+envConfig = {};
+try
+{
+	if (env) envConfig = require('../../app/config/config.' + env);
+	console.log(envConfig.catalogPath);
+}
+catch (e)
+{
+	console.log(e.stack);
+}
+Object.merge(config, envConfig)
+
+console.log(config.catalogPath);
 
 var PACKET_LENGTH = 24;
 var PACKETS_PER_SECOND = 300;
 
 var Cdg = new Class({
-	initialize : function(name)
+	initialize : function(dir, name)
 	{
-		var cdgFilename = path.join(__dirname, '../../content/' + name + '.cdg')
+		var cdgFilename = path.join(config.catalogPath, dir);
+		cdgFilename = path.join(cdgFilename, name + '.cdg');
 		var cdgData = fs.readFileSync(cdgFilename);
 		this.buffer = cdgData;
 	},

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "dependencies": {
+    "chokidar": "^1.6.1",
     "q": "^1.4.1",
     "sapphire-express": "~1.1.0"
   }

@@ -107,6 +107,7 @@ Package('Karaoke.Views', {
 
 		startCdg : function()
 		{
+			if (!this.songs || this.songs.length <= this.selected) return;
 			this.cdgStarted = Date.now();
 			this.cdgPlaying = true;
 			var name = this.songs[this.selected].name;
@@ -158,7 +159,7 @@ Package('Karaoke.Views', {
 
 		draw : function(songs)
 		{
-
+			this.paused = false;
 			songs.sort(function(s1, s2)
 			{
 				return s1.name.toLowerCase().localeCompare(s2.name.toLowerCase());

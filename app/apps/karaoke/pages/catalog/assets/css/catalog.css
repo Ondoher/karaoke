@@ -1,8 +1,25 @@
 .catalog-page {
+	height: 100%
 }
 
 .catalog .pages {
     overflow: visible;
+}
+
+.show-no-content {display: none;}
+.hide-no-content {display: flex;}
+
+.no-content .show-no-content {display: flex;}
+.no-content .hide-no-content {display: none;}
+
+.show-busy {display: none;}
+.hide-busy {display: flex;}
+
+.busy .show-busy {display: flex;}
+.busy .hide-busy {display: none;}
+
+.outer-box {
+	width: 100%;
 }
 
 .catalog-content {

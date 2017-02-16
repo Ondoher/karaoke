@@ -137,12 +137,14 @@ Package('Karaoke.Views', {
 
 		pause : function()
 		{
+			console.log('pause');
 			this.paused = true;
 			KARAOKE.input.remove('inputDown', this.listener);
 		},
 
 		resume : function()
 		{
+			console.log('resume');
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
 			this.paused = false;
 		},
@@ -179,14 +181,38 @@ Package('Karaoke.Views', {
 				this.container.append(template);
 			}, this);
 
-			setTimeout(function()
+			if (songs.length)
 			{
-				var height = this.container.height();
-				this.oneHeight = template.outerHeight();
-				this.top = 0;
-				this.itemsFit = Math.floor(height / this.oneHeight);
-				this.drawSelected();
-			}.bind(this), 1);
+				setTimeout(function()
+				{
+					this.selected = 0;
+					this.top = 0;
+					var height = this.container.height();
+					this.oneHeight = template.outerHeight();
+					this.top = 0;
+					this.itemsFit = Math.floor(height / this.oneHeight);
+					this.drawSelected();
+					this.doScroll();
+				}.bind(this), 1);
+				this.noContent(false);
+			}
+			else
+			{
+				this.noContent(true);
+			}
+		},
+
+		busy : function(on)
+		{
+			console.log('busy', on);
+			if (on) $('#catalog-page').addClass('busy');
+			else $('#catalog-page').removeClass('busy');
+		},
+
+		noContent : function(on)
+		{
+			if (on) $('#catalog-page').addClass('no-content');
+			else $('#catalog-page').removeClass('no-content');
 		},
 
 		drawSelected : function()

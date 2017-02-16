@@ -20,9 +20,11 @@ Package('Karaoke.Controllers', {
 
 		updateCatalog()
 		{
+			this.view.busy(true);
 			return this.model.get()
 				.then(function(songs)
 				{
+					this.view.busy(false);
 					this.songs = songs;
 					this.view.draw(songs);
 				}.bind(this))

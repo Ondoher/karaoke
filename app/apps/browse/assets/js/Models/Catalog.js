@@ -17,6 +17,15 @@ Package('Browse.Models', {
 					return (data && data.success) ? Q(data.result) : Q.reject(data.result);
 				}.bind(this));
 		},
+
+		listenCatalogUpdate()
+		{
+			BROWSE.service.socketListen('catalog-update', function()
+			{
+				this.fire('catalog-update');
+			}.bind(this));
+		}
+
 	})
 });
 

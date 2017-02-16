@@ -17,6 +17,14 @@ Package('Karaoke.Models', {
 					return (data && data.success) ? Q(data.result) : Q.reject(data.result);
 				}.bind(this));
 		},
+
+		listenCatalogUpdate()
+		{
+			KARAOKE.service.socketListen('catalog-update', function()
+			{
+				this.fire('catalog-update');
+			}.bind(this));
+		}
 	})
 });
 

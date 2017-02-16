@@ -2,31 +2,6 @@ var fs = require('fs');
 var path = require('path');
 var Q = require('q');
 var Service = require('sapphire-express').Service;
-var chokidar = require('chokidar');
-
-var directory = CONFIG.catalogPath;
-if (directory.indexOf(':') !==-1) directory = directory.split(':')[1];
-directory = directory.split('\\').join('/');
-
-var watcher = chokidar.watch(directory, {
-	ignoreInitial: true,
-	cwd: directory,
-	depth: 3,
-});
-
-watcher
-	.on('addDir', function(path)
-	{
-		console.log('-----------------------------------')
-		console.log('Directory ', path, 'has been added')
-	})
-	.on('unlinkDir', function(path)
-	{
-		console.log('-----------------------------------')
-		console.log('Directory ', path, 'has been removed')
-	});
-
-
 function getDir(path)
 {
 	var deferred = Q.defer();

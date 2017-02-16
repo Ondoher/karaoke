@@ -11,6 +11,7 @@ Package('Browse.Controllers', {
 
 		onStart : function(callback)
 		{
+			BROWSE.service.start();
 			callback();
 		},
 
@@ -18,6 +19,7 @@ Package('Browse.Controllers', {
 		{
 			this.view = new Browse.Views.Browse();
 			SAPPHIRE.application.showPage('catalog');
+			BROWSE.service.message('karaoke/catalog/listenUpdate', {});
 		}
 	})
 });

@@ -17,7 +17,7 @@ Package('Browse.Controllers', {
 			this.model = SAPPHIRE.application.getModel('catalog');
 		},
 
-		onFirstShow : function()
+		updateCatalog()
 		{
 			this.model.get()
 				.then(function(songs)
@@ -27,10 +27,22 @@ Package('Browse.Controllers', {
 				}.bind(this))
 		},
 
+		onFirstShow : function()
+		{
+			this.model.listenCatalogUpdate();
+			this.model.listen('catalog-update', this.onCatalogUpdate.bind(this));
+			this.updateCatalog();
+		},
+
 		onShow : function(panel, query)
 		{
 			//this.view.draw()
 		},
+
+		onCatalogUpdate : function()
+		{
+			this.updateCatalog();
+		}
 	})
 });
 

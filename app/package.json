@@ -5,6 +5,6 @@
   "dependencies": {
     "chokidar": "^1.6.1",
     "q": "^1.4.1",
-    "sapphire-express": "~1.1.0"
+    "sapphire-express": "file:/dev/sapphire"
   }
 }

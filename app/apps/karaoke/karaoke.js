@@ -10,9 +10,11 @@ function main(req, res, app)
 	]);
 
 	app.addJS([
+		'/socket.io/socket.io.js',
 		'/assets/js/lib/translate.js',
 		'/assets/js/lib/templates.js',
 		'/assets/js/lib/ajax-service.js',
+		'/assets/js/lib/socket-service.js',
 		'/karaoke/assets/js/3rdParty/jquery.nanoscroller.js',
 		'/karaoke/assets/js/3rdParty/jquery-plugins.js',
 		'/karaoke/assets/js/Views/Karaoke.js',
@@ -44,6 +46,8 @@ exports.getApplication = function(req, res)
 	app.setBody('apps/karaoke/templates/body.html');
 	app.setMaster('apps/karaoke/templates/master.html');
 	app.addUrl('getCatalog', '/karaoke/services/catalog/get');
+	app.addVariable('socketPort', process.env.socketPort);
+	app.addVariable('socketUrl', CONFIG.baseSocketUrl + ':' + process.env.socketPort);
 
 	return main(req, res, app)
 		.then(sapphire.features.animator.bind(sapphire.features.animator, req, res))

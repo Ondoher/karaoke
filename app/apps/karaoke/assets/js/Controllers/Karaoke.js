@@ -11,6 +11,7 @@ Package('Karaoke.Controllers', {
 
 		onStart : function(callback)
 		{
+			KARAOKE.service.start();
 			callback();
 		},
 
@@ -18,6 +19,7 @@ Package('Karaoke.Controllers', {
 		{
 			this.view = new Karaoke.Views.Karaoke();
 			SAPPHIRE.application.showPage('catalog');
+			KARAOKE.service.message('karaoke/catalog/listenUpdate', {});
 		}
 	})
 });

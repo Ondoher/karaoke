@@ -9,9 +9,11 @@ function main(req, res, app)
 	]);
 
 	app.addJS([
+		'/socket.io/socket.io.js',
 		'/assets/js/lib/translate.js',
 		'/assets/js/lib/templates.js',
 		'/assets/js/lib/ajax-service.js',
+		'/assets/js/lib/socket-service.js',
 		'/browse/assets/js/Models/Service.js',
 		'/browse/assets/js/Models/Catalog.js',
 		'/browse/assets/js/Views/Browse.js',
@@ -40,6 +42,8 @@ exports.getApplication = function(req, res)
 	app.setBody('apps/browse/templates/body.html');
 	app.setMaster('apps/browse/templates/master.html');
 	app.addUrl('getCatalog', '/karaoke/services/catalog/get');
+	app.addVariable('socketPort', process.env.socketPort);
+	app.addVariable('socketUrl', CONFIG.baseSocketUrl + ':' + process.env.socketPort);
 
 	return main(req, res, app)
 		.then(sapphire.features.animator.bind(sapphire.features.animator, req, res))

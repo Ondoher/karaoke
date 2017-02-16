@@ -18,14 +18,21 @@ Package('Karaoke.Controllers', {
 			this.model = SAPPHIRE.application.getModel('catalog');
 		},
 
-		onFirstShow : function()
+		updateCatalog()
 		{
-			this.model.get()
+			return this.model.get()
 				.then(function(songs)
 				{
 					this.songs = songs;
 					this.view.draw(songs);
 				}.bind(this))
+		},
+
+		onFirstShow : function()
+		{
+			this.model.listenCatalogUpdate();
+			this.model.listen('catalog-update', this.onCatalogUpdate.bind(this));
+			this.updateCatalog();
 		},
 
 		onShow : function()
@@ -46,6 +53,17 @@ Package('Karaoke.Controllers', {
 		onSongSelect : function(song)
 		{
 			SAPPHIRE.application.showPage('play', song);
+		},
+
+		onCatalogUpdate : function()
+		{
+			console.log('onCatalogUpdate...');
+			this.view.pause();
+			this.updateCatalog()
+				.then(function()
+				{
+					this.view.resume();
+				}.bind(this));
 		},
 	})
 });

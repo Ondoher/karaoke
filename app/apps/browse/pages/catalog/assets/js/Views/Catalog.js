@@ -10,10 +10,14 @@ Package('Browse.Views', {
 
 		draw : function(songs)
 		{
-
 			this.container.empty();
 			this.songs = songs;
 			var template;
+
+			songs.sort(function(s1, s2)
+			{
+				return s1.name.toLowerCase().localeCompare(s2.name.toLowerCase());
+			});
 
 			songs.each(function(song, index)
 			{

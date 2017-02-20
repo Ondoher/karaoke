@@ -29,7 +29,7 @@ Package('Karaoke.Views', {
 			this.previewCanvas = $('#preview-canvas')[0];
 			this.previewContext = this.previewCanvas.getContext('2d'),
 
-			setInterval(this.onTick.bind(this), 10);
+			this.tickInterval =setInterval(this.onTick.bind(this), 10);
 			this.setupStatic();
 			this.cdgPlaying = false;
 			this.lastInput = Date.now();
@@ -151,6 +151,7 @@ Package('Karaoke.Views', {
 		pause : function()
 		{
 			this.paused = true;
+			clearInterval(this.tickInterval);
 			KARAOKE.input.remove('inputDown', this.listener);
 		},
 
@@ -158,6 +159,7 @@ Package('Karaoke.Views', {
 		{
 			this.focused = TRACK_LIST;
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
+			this.tickInterval = setInterval(this.onTick.bind(this), 10);
 			this.paused = false;
 		},
 

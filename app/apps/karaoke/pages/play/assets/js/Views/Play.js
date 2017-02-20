@@ -5,7 +5,6 @@ Package('Karaoke.Views', {
 		initialize : function()
 		{
 			this.parent();
-			setInterval(this.onTick.bind(this));
 			this.canvas = document.getElementById('play-canvas');
 			this.container = $('#sound-here');
 		},
@@ -21,6 +20,7 @@ Package('Karaoke.Views', {
 		draw : function(song)
 		{
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
+			this.interval = setInterval(this.onTick.bind(this), 10);
 			this.cdg = new Cdg(song.path, song.name);
 			this.cdgCanvas = new CdgCanvas(this.cdg, this.canvas);
 
@@ -42,6 +42,7 @@ Package('Karaoke.Views', {
 			this.container.empty();
 			this.running = false;
 			KARAOKE.input.remove('inputDown', this.listener);
+			clearInterval(this.interval);
 		},
 
 		onInputDown : function(input)

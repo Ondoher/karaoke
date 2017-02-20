@@ -1,20 +1,28 @@
 <div id="catalog-page" class="catalog-page hbox page">
-
 	<div class="hide-busy hbox outer-box">
-		<div class="hide-no-content outer-box hbox">
-			<div class="catalog-content hbox space-between">
-				<div id="catalog-container" class="catalog-container vbox clearfix">
-					<div id="catalog-list" class="catalog-list clearfix"></div>
-				</div>
+		<div class="menu-container vbox">
+			<div class="menu">
+				<ul>
+					<li class="can-focus focus-id-1"><input id="search-catalog" placeholder="Search" /></li>
+					<li class="can-focus focus-id-2">Resume</li>
+					<li class="can-focus focus-id-3">Queue</li>
+					<li class="can-focus focus-id-4">About</li>
+				</ul>
 			</div>
-
-			<div class="cdg-preview hbox">
+			<div class="cdg-preview">
 				<canvas id="preview-canvas" width=300 height=216 class="preview-canvas"></canvas>
 				<canvas id="tv-canvas" width=300 height=216 class="tv-canvas"></canvas>
 			</div>
 		</div>
 		<div class="show-no-content hbox">
 			<h1>No Content</h1>
+		</div>
+		<div class="catalog-content hbox space-between hide-no-content">
+			<div class="catalog-content hbox space-between">
+				<div id="catalog-container" class="catalog-container vbox can-focus focus-id-0 clearfix">
+					<div id="catalog-list" class="catalog-list clearfix"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="show-busy hox">

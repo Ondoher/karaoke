@@ -1,3 +1,9 @@
+var TRACK_LIST = 0;
+var SEARCH = 1;
+var RESUME = 2;
+var QUEUE = 3;
+var ABOUT = 4;
+
 Package('Karaoke.Views', {
 	Catalog : new Class({
 		Extends : Sapphire.View,
@@ -7,6 +13,9 @@ Package('Karaoke.Views', {
 			this.parent();
 			this.selected = 0;
 			this.songs = [];
+			this.searchMap = {};
+			this.focused = TRACK_LIST;
+			this.root = $('#catalog-page');
 
 //			$('.catalog-container').nanoScroller({ alwaysVisible: true });
 
@@ -25,6 +34,9 @@ Package('Karaoke.Views', {
 			this.cdgPlaying = false;
 			this.lastInput = Date.now();
 			this.paused = false;
+			this.focused = TRACK_LIST;
+			this.searchInput = this.root.find('#search-catalog');
+			this.searchInput.on('input', this.onSearchFilter.bind(this));
 		},
 
 		renderStatic : function()
@@ -107,11 +119,12 @@ Package('Karaoke.Views', {
 
 		startCdg : function()
 		{
-			if (!this.songs || this.songs.length <= this.selected) return;
+			if (!this.songs || this.songsLength <= this.selected) return;
+			var selected = this.songs[this.searchMap[this.selected]];
 			this.cdgStarted = Date.now();
 			this.cdgPlaying = true;
-			var name = this.songs[this.selected].name;
-			var path = this.songs[this.selected].path;
+			var name = selected.name;
+			var path = selected.path;
 			this.cdg = new Cdg(path, name);
 			this.cdgCanvas = new CdgCanvas(this.cdg, this.previewCanvas);
 			this.cdgCanvas.start();
@@ -137,14 +150,13 @@ Package('Karaoke.Views', {
 
 		pause : function()
 		{
-			console.log('pause');
 			this.paused = true;
 			KARAOKE.input.remove('inputDown', this.listener);
 		},
 
 		resume : function()
 		{
-			console.log('resume');
+			this.focused = TRACK_LIST;
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
 			this.paused = false;
 		},
@@ -153,8 +165,10 @@ Package('Karaoke.Views', {
 		{
 			if (this.paused) return;
 			var now = Date.now();
-			if (!this.cdgPlaying && now - this.lastInput > 2000) this.startCdg();
-			else if (this.cdgPlaying && now - this.lastInput < 2000) this.stopCdg();
+			if (this.songsLength === 0 && this.cdgPlaying) this.stopCdg()
+			else if (this.songsLength === 0) this.renderStatic();
+			else if (!this.cdgPlaying && now - this.lastInput > 2000) this.startCdg();
+			else if (this.cdgPlaying &&	 now - this.lastInput < 2000) this.stopCdg();
 			else if (this.cdgPlaying) this.renderCdg();
 			else this.renderStatic();
 		},
@@ -170,15 +184,17 @@ Package('Karaoke.Views', {
 			this.container.empty();
 			this.songs = songs;
 			var template;
+			this.songsLength = songs.length;
 
 			songs.each(function(song, index)
 			{
 				template = SAPPHIRE.templates.get('song-template');
 				template.find('#song-name').text(song.name);
 				template.attr('id', 'song-' + index);
-				template.click(this.onSongSelect.bind(this, song));
+				song.selector = template;
 
 				this.container.append(template);
+				this.searchMap[index] = index;
 			}, this);
 
 			if (songs.length)
@@ -193,6 +209,7 @@ Package('Karaoke.Views', {
 					this.itemsFit = Math.floor(height / this.oneHeight);
 					this.drawSelected();
 					this.doScroll();
+					this.drawFocus();
 				}.bind(this), 1);
 				this.noContent(false);
 			}
@@ -204,7 +221,6 @@ Package('Karaoke.Views', {
 
 		busy : function(on)
 		{
-			console.log('busy', on);
 			if (on) $('#catalog-page').addClass('busy');
 			else $('#catalog-page').removeClass('busy');
 		},
@@ -227,6 +243,15 @@ Package('Karaoke.Views', {
 			{
 				this.container.scrollTop(this.top * this.oneHeight);
 			}
+		},
+
+		drawFocus : function()
+		{
+			this.root.find('.can-focus').removeClass('focused');
+			this.root.find('.focus-id-' + this.focused).addClass('focused');
+
+			if (this.focused === SEARCH) this.root.find('#search-catalog').focus();
+			else this.root.find('#search-catalog').blur();
 		},
 
 		checkScroll : function()
@@ -258,7 +283,7 @@ Package('Karaoke.Views', {
 		down : function()
 		{
 			this.selected++;
-			this.selected = Math.min(this.songs.length - 1, this.selected);
+			this.selected = Math.min(this.songsLength - 1, this.selected);
 			this.drawSelected();
 			this.checkScroll();
 		},
@@ -276,15 +301,11 @@ Package('Karaoke.Views', {
 		pageDown : function()
 		{
 			this.top += this.itemsFit;
-			this.top = Math.min(this.songs.length - this.itemsFit, this.top);
+			this.top = Math.min(this.songsLength - this.itemsFit, this.top);
 			this.selected += this.itemsFit;
-			this.selected = Math.min(this.songs.length - 1, this.selected);
+			this.selected = Math.min(this.songsLength - 1, this.selected);
 			this.drawSelected();
 			this.doScroll();
-		},
-
-		onSongSelect : function(song)
-		{
 		},
 
 		onScrolled : function()
@@ -301,11 +322,9 @@ Package('Karaoke.Views', {
 			this.doScroll();
 		},
 
-		onInputDown : function(input)
+		handleTrackListInput : function(action)
 		{
 			this.lastInput = Date.now();
-			var action = input.action;
-			var data = input.data;
 			switch(action)
 			{
 				case 'up':
@@ -315,14 +334,14 @@ Package('Karaoke.Views', {
 					this.down();
 					break;
 				case 'left':
+					this.focused = SEARCH;
+					this.drawFocus();
 					break;
 				case 'right':
 					break;
 				case 'enter':
-					this.fire('songSelect', this.songs[this.selected]);
-					break;
 				case 'select':
-					this.fire('songSelect', this.songs[this.selected]);
+					this.fire('songSelect', this.songs[this.searchMap[this.selected]]);
 					break;
 				case 'menu':
 					break;
@@ -335,6 +354,92 @@ Package('Karaoke.Views', {
 				default:
 					break;
 			}
+		},
+
+		handleTabsInput : function(action)
+		{
+			var down = {};
+			down[SEARCH] = RESUME;
+			down[RESUME] = QUEUE;
+			down[QUEUE] = ABOUT;
+			down[ABOUT] = SEARCH;
+
+			var up = {};
+			up[SEARCH] = ABOUT;
+			up[RESUME] = SEARCH;
+			up[QUEUE] = RESUME;
+			up[ABOUT] = QUEUE;
+
+			var event = {
+				RESUME: 'resume',
+				QUEUE: 'queue',
+				ABOUT: 'about',
+			}
+
+			switch (action)
+			{
+				case 'up':
+					this.focused = up[this.focused];
+					this.drawFocus();
+					break;
+				case 'down':
+					this.focused = down[this.focused];
+					this.drawFocus();
+					break;
+				case 'right':
+					if (this.songsLength !== 0)
+					{
+						this.focused = TRACK_LIST;
+						this.drawFocus();
+					}
+				case 'enter':
+				case 'select':
+					if (this.focused !== SEARCH)
+					{
+						var evt = event[this.focused];
+						if (evt) this.fire(evt);
+					}
+					break;
+			}
+		},
+
+		onInputDown : function(input)
+		{
+			var action = input.action;
+			var data = input.data;
+			if (this.focused === TRACK_LIST) this.handleTrackListInput(action);
+			else this.handleTabsInput(action);
+		},
+
+		onSearchFilter : function()
+		{
+			var search = this.searchInput.val().toLowerCase().replace(/\W/g, '');
+			this.container.find('.song-item').detach();
+			var idx = 0;
+			this.songs.each(function(song, index) {
+				var songSearch = song.name.toLowerCase().replace(/\W/g, '');
+
+				if (search === '' || songSearch.indexOf(search) !== -1) {
+					song.selector.attr('id', 'song-' + idx);
+					this.container.append(song.selector);
+					this.searchMap[idx] = index;
+					idx++;
+				}
+			}, this);
+
+			this.songsLength = idx;
+			this.noContent(this.songsLength === 0);
+
+			this.selected = 0;
+			this.top = 0;
+			var height = this.container.height();
+			this.top = 0;
+			this.itemsFit = Math.floor(height / this.oneHeight);
+			this.drawSelected();
+			this.doScroll();
+			this.drawFocus();
+			this.stopCdg()
+			this.lastInput = Date.now();
 		}
 	})
 });

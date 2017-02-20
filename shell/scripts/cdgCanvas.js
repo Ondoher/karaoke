@@ -566,7 +566,7 @@ tiles into the border area and scrolling them into view.
 		var total = Math.floor((timeOffset) * (300 / 1000));
 		var count = total - this.curPos;
 		var packets = this.cdg.getPackets(this.curPos, count);
-		if (packets.length === 0) return false;
+		if (packets.length === 0) return this.curPos <= this.cdg.length();
 
 		this.curPos = total;
 

@@ -15,6 +15,7 @@ Package('Karaoke.Controllers', {
 		{
 			this.view = new Karaoke.Views.Play();
 			this.view.listen('back', this.onBack.bind(this));
+			this.view.listen('song-over', this.onSongOver.bind(this));
 		},
 
 		onShow : function(song)
@@ -28,6 +29,11 @@ Package('Karaoke.Controllers', {
 		},
 
 		onBack : function()
+		{
+			SAPPHIRE.application.showPage('catalog');
+		},
+
+		onSongOver : function()
 		{
 			SAPPHIRE.application.showPage('catalog');
 		}

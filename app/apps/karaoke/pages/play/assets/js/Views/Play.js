@@ -31,6 +31,7 @@ Package('Karaoke.Views', {
 			this.audio.src = 'karaoke/services/download/music?filename=' + encodeURIComponent(song.path + '/' + song.name) + '.mp3';
 			this.audio.controls = false;
 			this.audio.autoplay = true;
+			this.audio.addEventListener('ended', this.fire.bind(this, 'song-over'));
 			this.container.append(this.audio);
 			this.running = true;
 

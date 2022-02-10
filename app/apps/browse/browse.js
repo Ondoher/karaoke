@@ -4,7 +4,8 @@ var sapphire = require('sapphire-express');
 function main(req, res, app)
 {
 	app.addCSS([
-//		'/karaoke/assets/css/fonts.css',
+		'/karaoke/assets/css/fonts.css',
+		'/browse/assets/css/flex.css',
 		'/browse/assets/css/browse.css',
 	]);
 
@@ -16,6 +17,7 @@ function main(req, res, app)
 		'/assets/js/lib/socket-service.js',
 		'/browse/assets/js/Models/Service.js',
 		'/browse/assets/js/Models/Catalog.js',
+		'/browse/assets/js/Models/Queue.js',
 		'/browse/assets/js/Views/Browse.js',
 		'/browse/assets/js/Controllers/Browse.js',
 	]);
@@ -42,6 +44,9 @@ exports.getApplication = function(req, res)
 	app.setBody('apps/browse/templates/body.html');
 	app.setMaster('apps/browse/templates/master.html');
 	app.addUrl('getCatalog', '/karaoke/services/catalog/get');
+	app.addUrl('getQueue', '/karaoke/services/queue/get');
+	app.addUrl('addQueue', '/karaoke/services/queue/add');
+	app.addUrl('removeQueue', '/karaoke/services/queue/remove');
 	app.addVariable('socketPort', process.env.socketPort);
 	app.addVariable('socketUrl', CONFIG.baseSocketUrl + ':' + process.env.socketPort);
 

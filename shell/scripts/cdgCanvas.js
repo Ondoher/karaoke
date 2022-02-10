@@ -41,47 +41,48 @@ var CDG_TILE_COLS  = CDG_FULL_HEIGHT / CDG_TILE_WIDTH;
 
 var COLOUR_TABLE_SIZE       = 16
 
-function CdgCanvas(cdg, canvas)
-{
-	this.cdg = cdg;
-	this.canvas = canvas;
-	this.ctx = canvas.getContext('2d');
-	this.ctx.imageSmoothingEnabled = true;
-	this.curPos = 0;
-	this.colorMap = new Uint32Array(16);
-	this.colorMap.fill(0xffffffff);
-// the surface as drawn using cdg is four bits per pixel, each being an index into a colormap
-// to make scrolling easier, we're going to waste the top four bits of each pixel.
-	this.cdgSurface = new Uint8ClampedArray(CDG_FULL_WIDTH * CDG_FULL_HEIGHT);
-	this.resetInvalidation();
+console.log('---CdgCanvas')
 
-	this.borderColor  = false;
-	this.clearColor  = false;
-	this.hOffset = 0;
-	this.vOffset = 0;
-}
+class CdgCanvas {
+	constructor(cdg, canvas) {
+		console.log('CdgCanvas::constructor')
+		this.cdg = cdg;
+		this.canvas = canvas;
+		this.ctx = canvas.getContext('2d');
+		this.ctx.imageSmoothingEnabled = true;
+		this.curPos = 0;
+		this.colorMap = new Uint32Array(16);
+		this.colorMap.fill(0xffffffff);
+	// the surface as drawn using cdg is four bits per pixel, each being an index into a colormap
+	// to make scrolling easier, we're going to waste the top four bits of each pixel.
+		this.cdgSurface = new Uint8ClampedArray(CDG_FULL_WIDTH * CDG_FULL_HEIGHT);
+		this.resetInvalidation();
 
-CdgCanvas.prototype = {
-	start : function()
-	{
+		this.borderColor  = false;
+		this.clearColor  = false;
+		this.hOffset = 0;
+		this.vOffset = 0;
+	}
+
+	start () {
 		this.lastOffset = 0;
 		this.startTime = Date.now();
 		this.curPos = 0;
-	},
+	}
 
-	pause : function()
+	pause ()
 	{
 		this.pauseTime = Date.now(0);
-	},
+	}
 
-	resume : function()
+	resume()
 	{
 		var pausedTime = Date.now() - this.pauseTime;
 		this.startTime += pausedTime;
 		this.lastDraw += pausedTime;
-	},
+	}
 
-	draw : function()
+	draw()
 	{
 		var update;
 
@@ -127,8 +128,8 @@ CdgCanvas.prototype = {
 //		if (this.drawBorder || this.hOffset || this.vOffset)
 		if (true)
 		{
-			hUpdate = new Uint8ClampedArray(CDG_FULL_WIDTH * CDG_TILE_HEIGHT * 4)
-			vUpdate = new Uint8ClampedArray(CDG_FULL_HEIGHT * CDG_TILE_WIDTH * 4)
+			var hUpdate = new Uint8ClampedArray(CDG_FULL_WIDTH * CDG_TILE_HEIGHT * 4)
+			var vUpdate = new Uint8ClampedArray(CDG_FULL_HEIGHT * CDG_TILE_WIDTH * 4)
 			var color = this.colorMap[this.borderColor];
 
 			for (var idx = 0; idx < hUpdate.length;  idx += 4)
@@ -145,6 +146,12 @@ CdgCanvas.prototype = {
 				vUpdate[idx + 1] = (color >>> 16) & 0xff;  // G
 				vUpdate[idx + 2] = (color >>> 8) & 0xff;   // B
 				vUpdate[idx + 3] = (color & 0xff);         // A
+
+//				vUpdate[idx] = 255;
+//				vUpdate[idx + 1] = 0;
+//				vUpdate[idx + 2] = 0;
+//				vUpdate[idx + 3] = 255;
+
 			}
 
 			var hImageData = new ImageData(hUpdate, CDG_FULL_WIDTH, CDG_TILE_HEIGHT);
@@ -154,25 +161,25 @@ CdgCanvas.prototype = {
 			this.ctx.putImageData(hImageData, 0, CDG_FULL_HEIGHT - CDG_TILE_HEIGHT);
 
 			this.ctx.putImageData(vImageData, 0, 0);
-			this.ctx.putImageData(hImageData, CDG_FULL_WIDTH - CDG_TILE_HEIGHT, 0);
+			this.ctx.putImageData(vImageData, CDG_FULL_WIDTH - CDG_TILE_WIDTH, 0);
 		}
-	},
+	}
 
-	invalidateAll : function(border)
+	invalidateAll(border)
 	{
 		this.invalidateRect(0, 0, CDG_FULL_WIDTH, CDG_FULL_HEIGHT);
 		this.invalidateBorder = border;
-	},
+	}
 
-	invalidateRect : function(xStart, yStart, xStop, yStop)
+	invalidateRect(xStart, yStart, xStop, yStop)
 	{
 		if (xStart < this.invalid.xStart) this.invalid.xStart = xStart;
 		if (yStart < this.invalid.yStart) this.invalid.yStart = yStart;
 		if (xStop > this.invalid.xStop) this.invalid.xStop = xStop;
 		if (yStop > this.invalid.yStop) this.invalid.yStop = yStop;
-	},
+	}
 
-	resetInvalidation : function()
+	resetInvalidation()
 	{
 		this.invalid = {
 			xStart: CDG_FULL_WIDTH,
@@ -180,18 +187,18 @@ CdgCanvas.prototype = {
 			xStop: 0,
 			yStop: 0,
 		};
-	},
+	}
 
-	xlatColor : function(index)
+	xlatColor(index)
 	{
 		return this.colorMap(index);
-	},
+	}
 
-	setTransparent : function(index)
+	setTransparent(index)
 	{
 		this.colorMap[index] =  0;
 		this.invalidateAll(true);
-	},
+	}
 
 /*
 ***
@@ -222,7 +229,7 @@ here with Xs.
 The Load CLUT commands are often used in CD+G to provide the illusion of
 animation through the use of color cyling.
 */
-	setColors : function(offset, data)
+	setColors(offset, data)
 	{
 		function expand(bits)
 		{
@@ -248,7 +255,7 @@ animation through the use of color cyling.
 		}
 
 		this.invalidateAll(true);
-	},
+	}
 
 /*
 ***
@@ -294,7 +301,7 @@ already onscreen using the XOR operator.  Since CD+G only allows a maximum of 16
 colors, we are XORing the pixel values (0-15) themselves, which correspond to
 indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 */
-	updateTile : function(data, xor)
+	updateTile(data, xor)
 	{
 		var color0 = data[0] & 0x0f;
 		var color1 = data[1] & 0x0f;
@@ -337,9 +344,9 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 		}
 
 		this.invalidateRect(x, y, x + CDG_TILE_WIDTH, y + CDG_TILE_HEIGHT);
-	},
+	}
 
-	clearAll : function(color)
+	clearAll(color)
 	{
 		if (this.clearColor === color) return;
 		this.clearColor = color;
@@ -347,17 +354,17 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 		this.cdgSurface.fill(color);
 		this.invalidateAll(true);
 		this.drawBorder = true;
-	},
+	}
 
-	clearBorder : function(color)
+	clearBorder(color)
 	{
 	//! actually set the pixels
 		this.borderColor = color;
 		this.drawBorder = true;
 		this.invalidateAll(true);
-	},
+	}
 
-	vScroll : function(pixels, clear)
+	vScroll(pixels, clear)
 	{
 	// Vertical scrolling is easiest, it is just a simple memory move.
 		var length = CDG_FULL_WIDTH *  Math.abs(pixels);
@@ -381,9 +388,9 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 			this.cdgSurface.copyWithin(length, 0);
 			this.cdgSurface.set(replace, 0, bottom - length);
 		}
-	},
+	}
 
-	hScroll : function(pixels, clear)
+	hScroll(pixels, clear)
 	{
 		var length = Math.abs(pixels);
 		var replace = new Uint8ClampedArray(length);
@@ -409,7 +416,7 @@ indexes into a color lookup table.  We are not XORing the actual R,G,B values.
 				this.cdgSurface.set(replace, pos, length);
 			}
 		}
-	},
+	}
 
 /*
 ***
@@ -480,7 +487,7 @@ You can create the effect of an infinite panorama by continually loading in new
 tiles into the border area and scrolling them into view.
 */
 
-	scroll : function(data, preset)
+	scroll(data, preset)
 	{
 		var color = data[0] & 0x0f;
 		var hScroll = data[1] & 0x3f;
@@ -521,9 +528,9 @@ tiles into the border area and scrolling them into view.
 			this.invalidateAll(true);
 			this.scrolled = true;
 		}
-	},
+	}
 
-	executePacket : function(packet)
+	executePacket(packet)
 	{
 		if (packet.command !== CDG_COMMAND) return;
 
@@ -559,9 +566,9 @@ tiles into the border area and scrolling them into view.
 		}
 
 		if (packet.instruction !== CDG_INST_MEMORY_PRESET) this.clearColor = false;
-	},
+	}
 
-	updateSurface : function(timeOffset)
+	updateSurface(timeOffset)
 	{
 		var total = Math.floor((timeOffset) * (300 / 1000));
 		var count = total - this.curPos;

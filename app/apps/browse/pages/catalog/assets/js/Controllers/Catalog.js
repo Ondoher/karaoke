@@ -14,12 +14,14 @@ Package('Browse.Controllers', {
 		onLoad : function()
 		{
 			this.view = new Browse.Views.Catalog();
-			this.model = SAPPHIRE.application.getModel('catalog');
+			this.view.listen('add', this.onAddToQueue.bind(this));
+			this.catalog = SAPPHIRE.application.getModel('catalog');
+			this.queue = SAPPHIRE.application.getModel('queue');
 		},
 
 		updateCatalog()
 		{
-			this.model.get()
+			this.catalog.get()
 				.then(function(songs)
 				{
 					this.songs = songs;
@@ -29,20 +31,31 @@ Package('Browse.Controllers', {
 
 		onFirstShow : function()
 		{
-			this.model.listenCatalogUpdate();
-			this.model.listen('catalog-update', this.onCatalogUpdate.bind(this));
+			this.catalog.listenCatalogUpdate();
+			this.queue.listenQueueUpdate();
+			this.catalog.listen('catalog-update', this.onCatalogUpdate.bind(this));
+			this.queue.listen('queue-update', this.onQueueUpdate.bind(this));
 			this.updateCatalog();
 		},
 
 		onShow : function(panel, query)
 		{
-			//this.view.draw()
+		},
+
+		onAddToQueue : function(song)
+		{
+			this.queue.add(song);
 		},
 
 		onCatalogUpdate : function()
 		{
 			this.updateCatalog();
+		},
+
+		onQueueUpdate : function()
+		{
 		}
+
 	})
 });
 

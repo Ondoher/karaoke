@@ -18,6 +18,9 @@
 .busy .show-busy {display: flex;}
 .busy .hide-busy {display: none;}
 
+.show-have-queue {display: none}
+.have-queue .show-have-queue {display: block}
+
 #search-catalog {
 	font-size: 40px;
 	background-color: transparent;
@@ -113,6 +116,9 @@
 	transform: translate3d(0, 0, 0);
 	-webkit-backface-visibility: hidden;
 	-webkit-perspective: 1000;
+	backface-visibility: hidden;
+	perspective: 1000;
+
 }
 
 .preview-canvas {
@@ -126,5 +132,8 @@
 	transform: translate3d(0, 0, 0);
 	-webkit-backface-visibility: hidden;
 	-webkit-perspective: 1000;
+	backface-visibility: hidden;
+	perspective: 1000;
+
 }
 

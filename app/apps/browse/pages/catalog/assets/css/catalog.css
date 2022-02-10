@@ -6,6 +6,17 @@
     overflow: visible;
 }
 
+.search-header {
+	background-color: gray;
+	padding: 5px;
+}
+
+.search-input {
+	font-size:20px;
+	border-radius: 5px;
+	padding: 0px 3px;
+}
+
 .catalog-content {
 	overflow: hidden;
 	width: 100%
@@ -16,6 +27,10 @@
 	overflow-y: auto;
 	width:100%;
 	font-size: 16px;
+}
+
+.catalog-list .filtered {
+	display: none;
 }
 
 .cdg-preview {

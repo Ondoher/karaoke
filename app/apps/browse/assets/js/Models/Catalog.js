@@ -7,7 +7,7 @@ Package('Browse.Models', {
 			this.parent();
 		},
 
-		get : function(cert, key, passphrase)
+		get : function()
 		{
 			var data = {
 			};

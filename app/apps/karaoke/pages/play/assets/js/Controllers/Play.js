@@ -7,7 +7,7 @@ Package('Karaoke.Controllers', {
 			this.parent();
 
 			SAPPHIRE.application.listenPageEvent('load', 'play', this.onLoad.bind(this));
-			SAPPHIRE.application.listenPageEvent('show', 'play', this.onShow.bind(this));
+            SAPPHIRE.application.listenPageEvent('show', 'play', this.onShow.bind(this));
 			SAPPHIRE.application.listenPageEvent('hide', 'play', this.onHide.bind(this));
 		},
 
@@ -35,7 +35,7 @@ Package('Karaoke.Controllers', {
 
 		onSongOver : function()
 		{
-			SAPPHIRE.application.showPage('catalog');
+			SAPPHIRE.application.showPage('catalog', 'done');
 		}
 	})
 });

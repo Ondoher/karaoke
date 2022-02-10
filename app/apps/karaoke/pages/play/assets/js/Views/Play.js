@@ -1,3 +1,6 @@
+var SYNC = 0;
+
+
 Package('Karaoke.Views', {
 	Play : new Class({
 		Extends : Sapphire.View,
@@ -13,7 +16,7 @@ Package('Karaoke.Views', {
 		{
 			if (!this.running) return;
 			var now = this.audio.currentTime;
-			now = Math.floor(now * 1000);
+            now = Math.floor(now * 1000 + SYNC);
 			this.cdgCanvas.updateSurface(now);
 		},
 
@@ -34,7 +37,17 @@ Package('Karaoke.Views', {
 			this.audio.addEventListener('ended', this.fire.bind(this, 'song-over'));
 			this.container.append(this.audio);
 			this.running = true;
-
+/**/
+try {
+console.log(1);
+//			KARAOKE.microphone.connect(KARAOKE.analyser);
+console.log(2);
+///			KARAOKE.analyser.connect(KARAOKE.aCtx.destination);
+console.log(3);
+} catch (e) {
+	console.log(e);
+}
+/**/
 		},
 
 		erase : function()

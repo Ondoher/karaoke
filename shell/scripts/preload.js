@@ -1,12 +1,23 @@
 window.ipc = require('electron').ipcRenderer;
-require('mootools');
+//require('mootools');
 var fs = require('fs');
 var path = require('path');
-window.Cdg = require('./cdg');
-window.CdgCanvas = require('./cdgCanvas');
+var Cdg = require('./cdg');
+var CdgCanvas = require('./cdgCanvas');
 
 
-window.loadAudio = function(addTo, name)
+function newCdg(dir, name) {
+	return new Cdg(dir, name);
+}
+
+function newCdgCanvas(cdg, canvas) {
+	return new CdgCanvas(cdg, canvas);
+}
+
+//const { contextBridge } = require('electron')
+
+console.log('preload', window.Cdg);
+var loadAudio = function(addTo, name)
 {
 	var audio = new Audio();
 	audio.src = 'file:/dev/karaoke/shell/content/' + name + '.mp3';
@@ -33,7 +44,7 @@ function printPacket(n)
 */
 
 var os = require('os');
-window.getLocalUrl = function()
+var getLocalUrl = function()
 {
 	var ifaces = os.networkInterfaces();
 	var result = 'not found'
@@ -57,7 +68,21 @@ window.getLocalUrl = function()
 	return result;
 }
 
-console.log(window.getLocalUrl());
+window.Cdg = Cdg;
+window.CdgCanvas = CdgCanvas;
+window.newCdg = newCdg;
+window.newCdgCanvas = newCdgCanvas;
+window.loadAudio = loadAudio;
+window.getLocalUrl = getLocalUrl;
+
+/*
+contextBridge.exposeInMainWorld('Cdg', Cdg);
+contextBridge.exposeInMainWorld('CdgCanvas', CdgCanvas);
+contextBridge.exposeInMainWorld('newCdg', newCdg);
+contextBridge.exposeInMainWorld('newCdgCanvas', newCdgCanvas);
+contextBridge.exposeInMainWorld('loadAudio', loadAudio);
+contextBridge.exposeInMainWorld('getLocalUrl', getLocalUrl);
+*/
 
 
 

@@ -15,22 +15,21 @@ catch (e)
 {
 	console.log(e.stack);
 }
-Object.merge(config, envConfig)
 
+Object.merge(config, envConfig)
 console.log(config.catalogPath);
 
 var PACKET_LENGTH = 24;
 var PACKETS_PER_SECOND = 300;
 
-var Cdg = new Class({
-	initialize : function(dir, name)
-	{
-		var cdgFilename = path.join(config.catalogPath, dir);
-		cdgFilename = path.join(cdgFilename, name + '.cdg');
-		var cdgData = fs.readFileSync(cdgFilename);
-		this.buffer = cdgData;
-	},
+function Cdg(dir, name) {
+	var cdgFilename = path.join(config.catalogPath, dir);
+	cdgFilename = path.join(cdgFilename, name + '.cdg');
+	var cdgData = fs.readFileSync(cdgFilename);
+	this.buffer = cdgData;
+}
 
+Cdg.prototype = {
 	getPacket : function(index)
 	{
 		var slice = this.buffer.slice(index * PACKET_LENGTH + PACKET_LENGTH);
@@ -69,155 +68,7 @@ var Cdg = new Class({
 		}
 
 		return packets;
-	}
-});
+	},
+}
 
 module.exports = Cdg;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-										 8

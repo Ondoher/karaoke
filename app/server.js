@@ -46,6 +46,7 @@ function masterSetup()
 
 	process.on('uncaughtException', function(err)
 	{
+		console.log('uncaughtException', err)
 		logger.error('Master Exception: \n' + err.stack);
 	});
 }
@@ -62,6 +63,9 @@ function workerSetup()
 	process.on('uncaughtException', function(err)
 	{
 		logger.error('Worker Exception: \n' + err.stack);
+
+	// an error in node-static is throwing an error, ignore all errors until that can be fixed
+		return;
 
 		var killTimer = setTimeout(function()
 		{

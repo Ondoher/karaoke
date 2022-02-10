@@ -17,9 +17,11 @@ function main(req, res, app)
 		'/assets/js/lib/socket-service.js',
 		'/karaoke/assets/js/3rdParty/jquery.nanoscroller.js',
 		'/karaoke/assets/js/3rdParty/jquery-plugins.js',
+		'/karaoke/assets/js/3rdParty/monkey.js',
 		'/karaoke/assets/js/Views/Karaoke.js',
 		'/karaoke/assets/js/Models/Service.js',
 		'/karaoke/assets/js/Models/Catalog.js',
+		'/karaoke/assets/js/Models/Queue.js',
 		'/karaoke/assets/js/Controllers/Karaoke.js',
 	]);
 
@@ -46,6 +48,9 @@ exports.getApplication = function(req, res)
 	app.setBody('apps/karaoke/templates/body.html');
 	app.setMaster('apps/karaoke/templates/master.html');
 	app.addUrl('getCatalog', '/karaoke/services/catalog/get');
+	app.addUrl('getQueue', '/karaoke/services/queue/get');
+	app.addUrl('addQueue', '/karaoke/services/queue/add');
+	app.addUrl('removeQueue', '/karaoke/services/queue/remove');
 	app.addVariable('socketPort', process.env.socketPort);
 	app.addVariable('socketUrl', CONFIG.baseSocketUrl + ':' + process.env.socketPort);
 

@@ -1,16 +1,20 @@
-<div id="catalog-page" class="catalog-page hbox page">
+<div id="catalog-page" class="catalog-page vbox page">
 
-	<div class="catalog-content vbox space-between">
-		<div id="catalog-container" class="catalog-container hbox clearfix">
-			<div id="catalog-list" class="catalog-list clearfix"></div>
+	<div class="search-header stretch">
+		<span class="vbox flex"><input type="text"class="search-input" /></span>
+	</div>
+	<div class="hbox">
+		<div class="catalog-content vbox space-between">
+			<div id="catalog-container" class="catalog-container hbox clearfix">
+				<div id="catalog-list" class="catalog-list clearfix"></div>
+			</div>
+		</div>
+
+		<div class="cdg-preview">
+			<canvas id="preview-canvas" width=300 height=216 class="preview-canvas"></canvas>
+			<canvas id="tv-canvas" width=300 height=216 class="tv-canvas"></canvas>
 		</div>
 	</div>
-
-	<div class="cdg-preview">
-		<canvas id="preview-canvas" width=300 height=216 class="preview-canvas"></canvas>
-		<canvas id="tv-canvas" width=300 height=216 class="tv-canvas"></canvas>
-	</div>
-
 	<div id="song-template" class="song-template song-item template clearfix">
 		<span id="song-name" class="song-name"></span><span class="song-buttons"><button id="add-queue">Add to Queue</button></span>
 </div>

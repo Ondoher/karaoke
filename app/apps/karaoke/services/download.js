@@ -28,6 +28,7 @@ DownloadService = new Class({
 		var filename = req.query.filename;
 
 		console.log(filename);
+		console.log(res.headersSent);
 		file.serveFile(filename, 200, {}, req, res).on('end', function()
 		{
 			deferred.resolve(null);

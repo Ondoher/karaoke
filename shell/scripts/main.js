@@ -15,10 +15,11 @@ function createWindow () {
   // Create the browser window.
   var webPreferences = {
     nodeIntegration: false,
+    contextIsolation: false,    
     preload: path.join(__dirname, './preload.js'),
   }
   win = new BrowserWindow({width: 800, height: 600, frame: false, fullscreen: true, webPreferences: webPreferences});
-  win.setFullScreen(true);
+//  win.setFullScreen(true);
 
   // and load the index.html of the app.
 /*

@@ -1,8 +1,8 @@
 var TRACK_LIST = 0;
-var SEARCH = 1;
-var RESUME = 2;
-var QUEUE = 3;
-var ABOUT = 4;
+var SEARCH = 'SEARCH';
+var RESUME = 'RESUME';
+var QUEUE = 'QUEUE';
+var ABOUT = 'ABOUT';
 
 Package('Karaoke.Views', {
 	Catalog : new Class({
@@ -16,6 +16,7 @@ Package('Karaoke.Views', {
 			this.searchMap = {};
 			this.focused = TRACK_LIST;
 			this.root = $('#catalog-page');
+			this.haveQueue = false;
 
 //			$('.catalog-container').nanoScroller({ alwaysVisible: true });
 
@@ -125,8 +126,9 @@ Package('Karaoke.Views', {
 			this.cdgPlaying = true;
 			var name = selected.name;
 			var path = selected.path;
-			this.cdg = new Cdg(path, name);
-			this.cdgCanvas = new CdgCanvas(this.cdg, this.previewCanvas);
+			this.cdg = newCdg(path, name);
+			console.log('CdgCanvas', CdgCanvas);
+			this.cdgCanvas = newCdgCanvas(this.cdg, this.previewCanvas);
 			this.cdgCanvas.start();
 			$('#preview-canvas').hide();
 			$('#tv-canvas').hide();
@@ -161,6 +163,14 @@ Package('Karaoke.Views', {
 			this.listener = KARAOKE.input.listen('inputDown', this.onInputDown.bind(this));
 			this.tickInterval = setInterval(this.onTick.bind(this), 10);
 			this.paused = false;
+		},
+
+		setHaveQueue : function(on)
+		{
+			this.haveQueue = on;
+
+			if (on) this.root.addClass('have-queue');
+			else this.root.removeClass('have-queue');
 		},
 
 		onTick : function()
@@ -372,11 +382,18 @@ Package('Karaoke.Views', {
 			up[QUEUE] = RESUME;
 			up[ABOUT] = QUEUE;
 
+			if (!this.haveQueue)
+			{
+				down[SEARCH] = ABOUT;
+				up[ABOUT] = SEARCH;
+			}
+
 			var event = {
 				RESUME: 'resume',
 				QUEUE: 'queue',
 				ABOUT: 'about',
 			}
+
 
 			switch (action)
 			{

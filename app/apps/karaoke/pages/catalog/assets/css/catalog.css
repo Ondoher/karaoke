@@ -44,22 +44,45 @@
 
 .outer-box {
 	width: 100%;
+	display: grid;
+	grid-template-columns: [menu] 600px [list] auto;
+	grid-template-rows: 100vh;
 }
 
 .catalog-content {
-	overflow: hidden;
-	width: 100%;
+	grid-column: list;
+	grid-row: 1;
+}
+
+.menu-container {
+	display: grid;
+	grid-column: menu;
+	grid-row: 1;
+	grid-template-columns: 100%;
+	grid-template-rows: [menu] auto [preview] 432px;
 }
 
 .catalog-list {
 	overflow: hidden;
 	width:100%;
+	height:100vh;
 	font-size: 40px;
+}
+
+.empty-list {
+	grid-column: 1;
+	width:100%;
+	font-size: 40px;
+	grid-column: list;
+	grid-row: 1;
+
 }
 
 .menu {
 	height: 100%;
 	padding: 0px 5px 0px 5px;
+	grid-column: 1;
+	grid-row: menu;
 }
 
 .menu ul {
@@ -81,7 +104,8 @@
 }
 
 .cdg-preview {
-	position: relative;
+	grid-row: preview;
+	overflow: hidden;
 	min-width: 600px;
 	min-height: 432px;
 }
@@ -106,7 +130,6 @@
 }
 
 .tv-canvas {
-	position: absolute;
 	top: 0;
 	left: 0;
 	width: 600px;
@@ -122,7 +145,6 @@
 }
 
 .preview-canvas {
-	position: absolute;
 	top: 0;
 	left: 0;
 	width: 600px;

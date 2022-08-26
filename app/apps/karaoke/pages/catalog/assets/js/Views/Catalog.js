@@ -42,6 +42,8 @@ Package('Karaoke.Views', {
 
 		renderStatic : function()
 		{
+			$('#preview-canvas').hide();
+
 			this.tvContext.putImageData(this.samples[Math.floor(this.sampleIndex)], 0, 0);
 
 			this.sampleIndex += 30 / this.FPS; // 1/FPS == 1 second
@@ -215,7 +217,8 @@ Package('Karaoke.Views', {
 				{
 					this.selected = 0;
 					this.top = 0;
-					var height = this.container.height();
+					var container = $('.catalog-content')
+					var height = container.height();
 					this.oneHeight = template.outerHeight();
 					this.top = 0;
 					this.itemsFit = Math.floor(height / this.oneHeight);
